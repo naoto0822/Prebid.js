@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>prebidテストサイト</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script src="../../build/dev/prebid.js"></script>
+  <script async src="//www.googletagservices.com/tag/js/gpt.js"></script>
+  <script type="text/javascript">
+    var adUnits = [{
+        code: 'div-banner-1',
+        mediaTypes: {
+          banner: {
+            sizes: [
+              [300, 250]
+            ],
+          }
+        },
+        bids: [{
+          bidder: 'aja',
+          params: {
+            asi: 'Dg3rtLpmg'
+          }
+        }]
+      },
+      {
+        code: 'div-video-2',
+        mediaTypes: {
+          video: {
+            context: 'outstream',
+            playerSize: [300, 250]
+          }
+        },
+        bids: [{
+          bidder: 'aja',
+          params: {
+            asi: 'Pbl72LtmR'
+          }
+        }]
+      }
+    ];
+
+    var pbjs = pbjs || {};
+    pbjs.logging=true
+    pbjs.que = pbjs.que || [];
+
+    var googletag = googletag || {};
+    googletag.cmd = googletag.cmd || [];
+    googletag.cmd.push(function() {
+      googletag.pubads().disableInitialLoad();
+    });
+
+    pbjs.que.push(function() {
+      pbjs.addAdUnits(adUnits);
+      pbjs.requestBids({
+        bidsBackHandler: initAdserver
+      });
+      pbjs.setConfig({
+        "currency": {
+          "adServerCurrency": "USD",
+        }
+      });
+    });
+
+    function initAdserver() {
+      if (pbjs.initAdserverSet) return;
+      pbjs.initAdserverSet = true;
+      googletag.cmd.push(function() {
+        pbjs.que.push(function() {
+          pbjs.setTargetingForGPTAsync();
+          googletag.pubads().refresh();
+        });
+      });
+    }
+
+    setTimeout(function() {
+      initAdserver();
+    }, 1000);
+
+    //googletag.cmd.push(function() {
+      //googletag.defineSlot('/39877123/div-banner-1', [300, 250], 'div-banner-1').addService(googletag.pubads());
+      //googletag.pubads().enableAsyncRendering();
+      //googletag.enableServices();
+    //});
+    googletag.cmd.push(function() {
+      googletag.defineSlot('/39877123/div-video-2', [1, 1], 'div-video-2').addService(googletag.pubads());
+      googletag.pubads().enableAsyncRendering();
+      googletag.enableServices();
+    });
+  </script>
+</head>
+
+<body>
+  <h2>ここにバナー広告が出ます</h2>
+
+  <div class="container" style="margin-bottom:100em;">
+  </div>
+
+
+    <!-- /39877123/div-banner-1 -->
+    <div id='div-banner-1'>
+      <script>
+        //googletag.cmd.push(function() {
+          //googletag.display('div-banner-1');
+        //});
+      </script>
+    </div>
+
+
+    <h2>ここに動画広告が出ます</h2>
+    <!-- /39877123/div-video-2 -->
+    <div id='div-video-2'>
+      <script>
+        googletag.cmd.push(function() {
+          googletag.display('div-video-2');
+        });
+      </script>
+    </div>
+</body>
+
+</html>
