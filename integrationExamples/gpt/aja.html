@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
-  <title>prebidテストサイト</title>
+  <title>prebid test</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <script src="../../build/dev/prebid.js"></script>
   <script async src="//www.googletagservices.com/tag/js/gpt.js"></script>
   <script type="text/javascript">
     var adUnits = [{
-        code: 'div-banner-1',
+        code: 'prebid_banner',
         mediaTypes: {
           banner: {
             sizes: [
@@ -20,22 +19,7 @@
         bids: [{
           bidder: 'aja',
           params: {
-            asi: 'Dg3rtLpmg'
-          }
-        }]
-      },
-      {
-        code: 'div-video-2',
-        mediaTypes: {
-          video: {
-            context: 'outstream',
-            playerSize: [300, 250]
-          }
-        },
-        bids: [{
-          bidder: 'aja',
-          params: {
-            asi: 'Pbl72LtmR'
+            asi: 'tk82gbLmg'
           }
         }]
       }
@@ -54,7 +38,8 @@
     pbjs.que.push(function() {
       pbjs.addAdUnits(adUnits);
       pbjs.requestBids({
-        bidsBackHandler: initAdserver
+        bidsBackHandler: initAdserver,
+        timeout: 2000
       });
       pbjs.setConfig({
         "currency": {
@@ -78,45 +63,24 @@
       initAdserver();
     }, 1000);
 
-    //googletag.cmd.push(function() {
-      //googletag.defineSlot('/39877123/div-banner-1', [300, 250], 'div-banner-1').addService(googletag.pubads());
-      //googletag.pubads().enableAsyncRendering();
-      //googletag.enableServices();
-    //});
     googletag.cmd.push(function() {
-      googletag.defineSlot('/39877123/div-video-2', [1, 1], 'div-video-2').addService(googletag.pubads());
+      googletag.defineSlot('/39877123/prebid_banner', [300, 250], 'prebid_banner').addService(googletag.pubads());
       googletag.pubads().enableAsyncRendering();
       googletag.enableServices();
     });
+
   </script>
 </head>
 
 <body>
-  <h2>ここにバナー広告が出ます</h2>
-
-  <div class="container" style="margin-bottom:100em;">
+  <h2>Banner Ad</h2>
+  <!-- /39877123/prebid_banner -->
+  <div id='prebid_banner' style='height:250px; width:300px;'>
+    <script>
+      googletag.cmd.push(function() {
+        googletag.display('prebid_banner');
+      });
+    </script>
   </div>
-
-
-    <!-- /39877123/div-banner-1 -->
-    <div id='div-banner-1'>
-      <script>
-        //googletag.cmd.push(function() {
-          //googletag.display('div-banner-1');
-        //});
-      </script>
-    </div>
-
-
-    <h2>ここに動画広告が出ます</h2>
-    <!-- /39877123/div-video-2 -->
-    <div id='div-video-2'>
-      <script>
-        googletag.cmd.push(function() {
-          googletag.display('div-video-2');
-        });
-      </script>
-    </div>
 </body>
-
 </html>
