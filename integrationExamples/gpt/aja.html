@@ -7,7 +7,8 @@
   <script src="../../build/dev/prebid.js"></script>
   <script async src="//www.googletagservices.com/tag/js/gpt.js"></script>
   <script type="text/javascript">
-    var adUnits = [{
+    var adUnits = [
+      {
         code: 'prebid_banner',
         mediaTypes: {
           banner: {
@@ -20,6 +21,37 @@
           bidder: 'aja',
           params: {
             asi: 'tk82gbLmg'
+          }
+        }]
+      },
+      {
+        code: 'prebid_native',
+        mediaTypes: {
+          native: {
+            image: {
+                required: true
+            },
+            title: {
+                required: true
+            },
+            sponsoredBy: {
+                required: false
+            },
+            clickUrl: {
+                required: true
+            },
+            body: {
+                required: true
+            },
+            icon: {
+                required: true
+            }
+          }
+        },
+        bids: [{
+          bidder: 'aja',
+          params: {
+            asi: 'tduu7HBmR'
           }
         }]
       }
@@ -37,6 +69,12 @@
 
     pbjs.que.push(function() {
       pbjs.addAdUnits(adUnits);
+
+      var allSlotsBidWon = function allSlotsBidWon() {
+        console.log('allSlotsBidWon called');
+      };
+      pbjs.onEvent('bidWon', allSlotsBidWon);
+
       pbjs.requestBids({
         bidsBackHandler: initAdserver,
         timeout: 2000
@@ -69,7 +107,66 @@
       googletag.enableServices();
     });
 
+    googletag.cmd.push(function() {
+      googletag.defineSlot('/39877123/prebid_native', 'fluid', 'prebid_native').addService(googletag.pubads());
+      googletag.pubads().enableSingleRequest();
+      googletag.enableServices();
+    });
+
   </script>
+  <style type="text/css">
+  .normal-post {
+    font-family: sans-serif;
+    padding: 10px 20px 10px 20px;
+    word-wrap: break-word;
+    border: solid 0.5px #000000;
+  }
+
+  .sponsored-post {
+    background-color: #fffdeb;
+    font-family: sans-serif;
+    padding: 10px 20px 10px 20px;
+  }
+
+  .content {
+    overflow: hidden;
+  }
+
+  .thumbnail {
+    width: 120px;
+    height: 100px;
+    float: left;
+    margin: 0 20px 10px 0;
+    background-size: cover;
+  }
+
+  h1 {
+    font-size: 18px;
+    margin: 0;
+  }
+
+  a {
+    color: #0086b3;
+    text-decoration: none;
+  }
+
+  p {
+    font-size: 16px;
+    color: #444;
+    margin: 10px 0 10px 0;
+  }
+
+  .attribution {
+    color: #fff;
+    font-size: 9px;
+    font-weight: bold;
+    display: inline-block;
+    letter-spacing: 2px;
+    background-color: #ffd724;
+    border-radius: 2px;
+    padding: 4px;
+  }
+  </style>
 </head>
 
 <body>
@@ -81,6 +178,40 @@
         googletag.display('prebid_banner');
       });
     </script>
+  </div>
+
+  <h2>Native Ad</h2>
+  <div class="normal-post">
+    <div class="thumbnail"></div>
+    <div class="content">
+      <h1><a href="http://yahoo.co.jp" target="_blank" class="pb-click" pbAdId="%%PATTERN:hb_adid%%">title</a></h1>
+      <p>body</p>
+      <div class="attribution">sponsor</div>
+    </div>
+  </div>
+  <div class="normal-post">
+    <div class="thumbnail"></div>
+    <div class="content">
+      <h1><a href="http://yahoo.co.jp" target="_blank" class="pb-click" pbAdId="%%PATTERN:hb_adid%%">title</a></h1>
+      <p>body</p>
+      <div class="attribution">sponsor</div>
+    </div>
+  </div>
+  <!-- /39877123/prebid_native -->
+  <div id='prebid_native'>
+    <script>
+      googletag.cmd.push(function() {
+        googletag.display('prebid_native');
+      });
+    </script>
+  </div>
+  <div class="normal-post">
+    <div class="thumbnail"></div>
+    <div class="content">
+      <h1><a href="http://yahoo.co.jp" target="_blank" class="pb-click" pbAdId="%%PATTERN:hb_adid%%">title</a></h1>
+      <p>body</p>
+      <div class="attribution">sponsor</div>
+    </div>
   </div>
 </body>
 </html>
